@@ -30,7 +30,6 @@ export default function App() {
                     <div className="h-px bg-linear-to-r from-transparent via-gray-200 to-transparent" />
                   </div>
                   <div id="productos"><Productos /></div>
-                  <Blog />
                   <div id="contacto"><Contact /></div>
                 </motion.div>
               </main>
