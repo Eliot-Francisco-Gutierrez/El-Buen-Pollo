@@ -7,6 +7,7 @@ import Blog from "./components/Blog";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import CatalogPage from "./pages/CatalogPage";
+import ImporterExcel from "./components/ImporterExcel";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/" element={
             <AnimatePresence>
               <Header />
+              <ImporterExcel />
               <main>
                 <motion.div
                   initial={{ opacity: 0 }}
