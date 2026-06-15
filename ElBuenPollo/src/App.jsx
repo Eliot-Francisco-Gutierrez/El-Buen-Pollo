@@ -7,8 +7,11 @@ import Blog from "./components/Blog";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import CatalogPage from "./pages/CatalogPage";
-import ImporterExcel from "./components/ImporterExcel";
+import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from "./data/ProtectedRoute";
 import { motion, AnimatePresence } from "framer-motion";
+import AdminPage from "./pages/AdminPage";
+import LoginAdmin from "./pages/LoginAdmin";
 
 export default function App() {
   return (
@@ -19,7 +22,6 @@ export default function App() {
           <Route path="/" element={
             <AnimatePresence>
               <Header />
-              <ImporterExcel />
               <main>
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -41,7 +43,22 @@ export default function App() {
 
           {/* VISTA SOLO CATÁLOGO */}
           <Route path="/CatalogPage" element={<CatalogPage />} />
-        </Routes>
+          <Route path="/login" element={<LoginPage />} />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/login-admin"
+            element={<LoginAdmin />}
+          />
+          </Routes>
       </div>
     </Router>
   );

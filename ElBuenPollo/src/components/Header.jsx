@@ -1,9 +1,15 @@
+import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NavHashLink } from 'react-router-hash-link';
+import CartModal from "./CartModal";
 import { Link } from "react-router-dom";
+import logo from "../assets/Logo_el_buen_pollo.png";
 
 export default function Header() {
+  const { cantidadArticulos } = useContext(CartContext);
+  const [cartOpen, setCartOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
@@ -18,13 +24,38 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         
         {/* Logo */}
-        <Link to="/" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-          <div className="flex flex-col cursor-pointer">
-            <span className="text-2xl font-black tracking-tighter text-[#4a1414]">
-              EL BUEN <span className="text-[#facc15]">POLLO</span>
-            </span>
-          </div>
-        </Link>
+          <Link
+            to="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          >
+            <div className="flex items-center gap-3 cursor-pointer">
+
+              <img
+                src={logo}
+                alt="El Buen Pollo"
+                className="
+                  w-14
+                  h-14
+                  rounded-full
+                  object-cover
+                  border-2
+                  border-orange-500
+                  shadow-lg
+                "
+              />
+
+              <div className="flex flex-col">
+                <span className="text-2xl font-black tracking-tight text-[#4a1414]">
+                  EL BUEN <span className="text-[#facc15]">POLLO</span>
+                </span>
+
+                <span className="text-xs text-gray-500">
+                  Pollería • Carnicería • Almacén
+                </span>
+              </div>
+
+            </div>
+          </Link>
 
         {/* Menú Desktop */}
         <nav className="hidden md:flex items-center gap-8">
@@ -40,6 +71,19 @@ export default function Header() {
               {item.name}
             </NavHashLink>
           ))}
+
+            <div
+              className="relative cursor-pointer mr-2"
+              onClick={() => setCartOpen(true)}
+            >
+              <span className="text-2xl">🛒</span>
+
+              {cantidadArticulos > 0 && (
+                <span className="absolute -top-2 -right-2 bg-orange-600 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {cantidadArticulos}
+                </span>
+              )}
+            </div>
           <NavHashLink 
             smooth 
             to="/#contacto"
@@ -54,6 +98,10 @@ export default function Header() {
           {isOpen ? "✕" : "☰"}
         </button>
       </div>
+      <CartModal
+        isOpen={cartOpen}
+        onClose={() => setCartOpen(false)}
+      />
 
       {/* Menú Móvil */}
       <AnimatePresence>

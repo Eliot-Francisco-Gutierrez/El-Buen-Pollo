@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import logoCentro from "../assets/Logo1.jpeg"; // Tu imagen circular
+import logoCentro from "../assets/Logo_el_buen_pollo.png";
 
 export default function Hero() {
   return (
@@ -24,7 +24,7 @@ export default function Hero() {
           </p>
           
           <div className="flex flex-wrap gap-4">
-            <a href="#productos" className="bg-[#4a1414] text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-orange-900/20 hover:bg-orange-800 transition-all">
+            <a href="CatalogPage" className="bg-[#4a1414] text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-orange-900/20 hover:bg-orange-800 transition-all">
               Ver Catálogo
             </a>
             <a href="#contacto" className="bg-white text-gray-700 border-2 border-gray-100 px-8 py-4 rounded-2xl font-bold text-lg hover:border-orange-200 transition-all">
@@ -46,7 +46,7 @@ export default function Hero() {
             <img 
               src={logoCentro} 
               alt="Logo El Buen Pollo" 
-              className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
+              className="relative z-10 w-full h-full object-contain drop-shadow-2xl rounded-full shadow-lg shadow-orange-900/30"
             />
           </div>
         </motion.div>

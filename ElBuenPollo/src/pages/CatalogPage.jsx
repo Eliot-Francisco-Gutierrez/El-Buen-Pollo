@@ -1,78 +1,125 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-// Importamos la imagen del catálogo
-import imagenCatalogo from '../assets/elbuenpollopromo.jpeg'; 
+import { useState, useContext } from "react";
+import { CartContext } from "../context/CartContext";
+import CartModal from "../components/CartModal";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import Products from "../components/Products";
 
 export default function CatalogPage() {
+  const { cantidadArticulos } = useContext(CartContext);
+  const [cartOpen, setCartOpen] = useState(false);
+
   const numeroWhatsApp = "5493584116988";
-  const mensajeWA = encodeURIComponent("¡Hola! Vi el catálogo de ofertas y me gustaría hacer un pedido.");
+  const mensajeWA = encodeURIComponent(
+    "Hola! Vi el catálogo y me gustaría realizar un pedido."
+  );
 
   return (
-    <motion.div 
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
-      className="min-h-screen bg-stone-900 p-4 md:p-8 flex flex-col items-center"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="min-h-screen bg-stone-900"
     >
-      <div className="max-w-4xl w-full">
-        {/* Botón Volver */}
-        <Link to="/" className="text-orange-400 font-bold hover:text-orange-300 mb-6 inline-block transition-colors">
-          ← Volver al Inicio
-        </Link>
-        
-        <header className="text-center mb-8">
-          <h1 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter">
-            Nuestras <span className="text-orange-500">Ofertas</span>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+
+        <div className="flex justify-between items-center mb-8">
+
+          <Link
+            to="/"
+            className="text-orange-400 font-bold hover:text-orange-300"
+          >
+            ← Volver al Inicio
+          </Link>
+
+            <button
+              onClick={() => setCartOpen(true)}
+              className="
+                fixed
+                bottom-28
+                right-8
+                z-50
+                bg-orange-500
+                hover:bg-orange-600
+                text-white
+                w-16
+                h-16
+                rounded-full
+                shadow-2xl
+                flex
+                items-center
+                justify-center
+                text-3xl
+                transition-all
+                hover:scale-110
+              "
+            >
+              🛒
+
+              {cantidadArticulos > 0 && (
+                <span
+                  className="
+                    absolute
+                    -top-1
+                    -right-1
+                    bg-red-500
+                    text-white
+                    h-6
+                    w-6
+                    rounded-full
+                    flex
+                    items-center
+                    justify-center
+                    text-xs
+                    font-bold
+                    animate-pulse
+                  "
+                >
+                  {cantidadArticulos}
+                </span>
+              )}
+            </button>
+
+        </div>
+
+        <header className="text-center mb-10">
+          <h1 className="text-4xl md:text-6xl font-black text-white">
+            NUESTRAS <span className="text-orange-500">OFERTAS</span>
           </h1>
-          <p className="text-stone-400 mt-2 font-medium">Calidad y precio todos los días en Río Cuarto</p>
+
+          <p className="text-stone-400 mt-3">
+            Calidad y precio todos los días en Río Cuarto
+          </p>
         </header>
 
-        {/* Contenedor de la Imagen con Estilo */}
-        <motion.div 
-          initial={{ y: 20 }}
-          animate={{ y: 0 }}
-          className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-orange-500/20 bg-stone-800"
-        >
-          <img 
-            src={imagenCatalogo} 
-            alt="Catálogo El Buen Pollo" 
-            className="w-full h-auto object-contain"
-          />
-          
-          {/* Overlay de brillo sutil */}
-          <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent pointer-events-none" />
-        </motion.div>
+        <Products />
 
-        {/* Info de contacto debajo de la imagen */}
-        <div className="mt-8 text-center text-stone-400 text-sm italic">
+        <div className="mt-10 text-center text-stone-400 text-sm">
           * Precios sujetos a cambios y disponibilidad de stock.
         </div>
       </div>
 
-      {/* BOTÓN FLOTANTE DE WHATSAPP */}
+      <CartModal
+        isOpen={cartOpen}
+        onClose={() => setCartOpen(false)}
+      />
+
+      {/* WhatsApp */}
+
       <motion.a
         href={`https://wa.me/${numeroWhatsApp}?text=${mensajeWA}`}
         target="_blank"
         rel="noopener noreferrer"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="fixed bottom-8 right-8 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-[0_10px_25px_rgba(37,211,102,0.4)] flex items-center justify-center group"
+        className="fixed bottom-8 right-8 z-50 bg-green-500 text-white p-4 rounded-full shadow-xl"
       >
-        {/* Icono de WhatsApp (SVG) */}
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="32" 
-          height="32" 
-          viewBox="0 0 24 24" 
-          fill="currentColor"
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 32 32"
+          className="w-8 h-8 fill-current"
         >
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          <path d="M16 .4C7.4.4.4 7.4.4 16c0 2.8.7 5.4 2.1 7.8L0 32l8.4-2.2c2.2 1.2 4.8 1.8 7.6 1.8 8.6 0 15.6-7 15.6-15.6S24.6.4 16 .4zm0 28.4c-2.4 0-4.7-.6-6.7-1.8l-.5-.3-5 1.3 1.3-4.9-.3-.5A12.6 12.6 0 1 1 16 28.8zm6.9-9.5c-.4-.2-2.2-1.1-2.5-1.2-.3-.1-.6-.2-.9.2-.3.4-1 1.2-1.2 1.4-.2.2-.5.3-.9.1-.4-.2-1.7-.6-3.2-2-1.2-1.1-2-2.4-2.2-2.8-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.7.1-.2.1-.5 0-.7-.1-.2-.9-2.1-1.2-2.9-.3-.8-.6-.7-.9-.7h-.8c-.3 0-.7.1-1 .5-.3.4-1.3 1.3-1.3 3.2 0 1.9 1.4 3.8 1.6 4 .2.3 2.7 4.1 6.5 5.7.9.4 1.7.7 2.3.9 1 .3 1.9.2 2.6.1.8-.1 2.2-.9 2.5-1.7.3-.8.3-1.5.2-1.7-.1-.2-.4-.3-.8-.5z"/>
         </svg>
-
-        {/* Texto al pasar el mouse (opcional) */}
-        <span className="max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-2 transition-all duration-300 font-bold whitespace-nowrap">
-          Hacer pedido
-        </span>
       </motion.a>
     </motion.div>
   );
